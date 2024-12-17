@@ -1,0 +1,55 @@
+const screen = document.getElementById('display');
+const buttons = document.querySelectorAll('button');
+
+// Initialize a variable to hold the current input
+let currentInput = '';
+
+// Function to update the screen with a bottom-to-top scroll effect
+function updateScreen() {
+    // Clear the screen content
+    screen.innerHTML = '';
+
+    // Create a new div to hold the current input
+    const newText = document.createElement('div');
+    newText.textContent = currentInput;
+
+    // Add the scrolling effect class
+    newText.classList.add('scrolling-text');
+
+    // Append the new text to the screen
+    screen.appendChild(newText);
+}
+
+// Function to handle button clicks
+buttons.forEach(button => {
+    button.addEventListener('click', () => {
+        const buttonText = button.textContent;
+
+        // Clear the screen
+        if (buttonText === 'C') {
+            currentInput = '';
+        } 
+        // Handle backspace
+        else if (buttonText === ' X ') {
+            currentInput = currentInput.slice(0, -1);
+        } 
+        // Handle equal button press
+        else if (buttonText === '=') {
+            try {
+                currentInput = eval(currentInput).toString();
+            } catch (error) {
+                currentInput = 'Error';
+            }
+        } 
+        // Otherwise, append the button's value to the input
+        else {
+            currentInput += buttonText;
+        }
+
+        // Update the screen with the current input
+        updateScreen();
+    });
+});
+
+// Initial screen update
+updateScreen();
